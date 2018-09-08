@@ -27,7 +27,7 @@ Start the cluster. Best to do so in 5 separate windows:
 ./cluster_run --start-index 5 --nodes 1 --dont-rename 
 ```
 
-Create the cluster and the server groups:
+Create the cluster:
 
 ```
 ../couchbase-cli/couchbase-cli cluster-init -c 127.0.0.1:9000 \
@@ -36,34 +36,34 @@ Create the cluster and the server groups:
               --cluster-ramsize 1024 \
               --cluster-name "Connect SV 2018 Demo" \
               --services data
-../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --group-name "Group 2" --create
-../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --group-name "Group 3" --create
+```
+
+List server groups:
+```
+../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --list
+```
+
+Delete a server group:
+```
+../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --group-name "Group 5" --delete
+```
+
+Create the server groups:
+```
+for g in `seq 2 3`
+    do ../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd \
+              --group-name "Group $g" --create
+done
 ```
 
 Add the nodes:
 ```
-../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --server-add 127.0.0.1:9001 \
-              --server-add-username Administrator --server-add-password asdasd \
-              --group-name "Group 1" --services data
-../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --server-add 127.0.0.1:9002 \
-              --server-add-username Administrator --server-add-password asdasd \
-              --group-name "Group 2" --services data
-../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --server-add 127.0.0.1:9003 \
-              --server-add-username Administrator --server-add-password asdasd \
-              --group-name "Group 2" --services data
-../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --server-add 127.0.0.1:9004 \
-              --server-add-username Administrator --server-add-password asdasd \
-              --group-name "Group 3" --services data
-../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --server-add 127.0.0.1:9005 \
-              --server-add-username Administrator --server-add-password asdasd \
-              --group-name "Group 3" --services data
+for x in `seq 1 5`
+    do ../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
+                 --server-add 127.0.0.1:900${x} \
+                 --server-add-username Administrator --server-add-password asdasd \
+                 --group-name "Group $((($x / 2) + 1))" --services data
+done
 ```
 
 And create the bucket:
@@ -85,13 +85,13 @@ Rebalance:
 
 Configure the auto-failover settings:
 ```
-    ../couchbase-cli/couchbase-cli setting-autofailover -c 127.0.0.1:9000 -u Administrator -p asdasd \
-                  --enable-auto-failover 1 \
-                  --auto-failover-timeout 5 \
-                  --enable-failover-of-server-groups 1 \
-                  --max-failovers 3 \
-                  --enable-failover-on-data-disk-issues 1 \
-                  --failover-data-disk-period 5
+../couchbase-cli/couchbase-cli setting-autofailover -c 127.0.0.1:9000 -u Administrator -p asdasd \
+              --enable-auto-failover 1 \
+              --auto-failover-timeout 5 \
+              --enable-failover-of-server-groups 1 \
+              --max-failovers 3 \
+              --enable-failover-on-data-disk-issues 1 \
+              --failover-data-disk-period 5
 ```
 
 Start the workload:
