@@ -1,4 +1,4 @@
 #!/bin/bash
 
-open 'http://localhost:9000/ui/index.html#!/servers/list'
-open 'http://localhost:9000/ui/index.html#!/buckets/analytics/ops?statsHostname=all&bucket=messages&openedStatsBlock=Server%20Resources&openedStatsBlock=Summary&zoom=minute'
+open 'http://localhost:9001/ui/index.html#!/servers/list'
+open 'http://localhost:9001/ui/index.html#!/buckets/analytics/ops?statsHostname=all&bucket=messages&openedStatsBlock=Server%20Resources&openedStatsBlock=Summary&zoom=minute'

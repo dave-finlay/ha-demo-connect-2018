@@ -37,8 +37,8 @@ create-cluster.sh
 
 Open a couple of browser tabs and place them side-by-side:
 ```
-open 'http://localhost:9000/ui/index.html#!/servers/list'
-open 'http://localhost:9000/ui/index.html#!/buckets/analytics/ops?statsHostname=all&bucket=messages&openedStatsBlock=Server%20Resources&openedStatsBlock=Summary&zoom=minute'
+open 'http://localhost:9001/ui/index.html#!/servers/list'
+open 'http://localhost:9001/ui/index.html#!/buckets/analytics/ops?statsHostname=all&bucket=messages&openedStatsBlock=Server%20Resources&openedStatsBlock=Summary&zoom=minute'
 ```
 
 Start the workload:
@@ -63,9 +63,12 @@ start-workload.sh
      * Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
      * Add back. Rebalance.
   5. Orchestrator failure. 
-     * Hang the orchestrator. 
+     * Hang the orchestrator: 
+     ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
      * Observe failover and workload.
+     * Switch to logs page.
      * Unhang the orchestrator.
+     ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID```
      * Add back. Rebalance.
   6. Drop server group 3. Observe failover and workload. 
 
@@ -82,14 +85,11 @@ Find the orchestrator:
 curl localhost:9001/diag/eval -d 'node(leader_registry:whereis_name(ns_orchestrator)).' -u Administrator:asdasd
 ```
 
-Pause / restart the orchestrator:
+Pause / restart node 0 (likely the orchestrator):
 
 ```
-pgrep -lf beam.smp | \
-              grep "run child_erlang child_start ns_bootstrap .*n_0" | \ 
-              cut -d " " -f 1
-kill -STOP $PID
-kill -CONT $PID
+OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID
+OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID
 ```
 
 List server groups:
