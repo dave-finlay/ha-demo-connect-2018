@@ -12,6 +12,11 @@ repo sync
 make -j4 EXTRA_CMAKE_OPTIONS='-DCOUCHBASE_DISABLED_UNIT_TESTS="kv_engine;platform"'
 ```
 
+Change to the demo directory:
+```
+cd ha-demo-connect-2018
+```
+
 Start the cluster. Best to do so in 6 separate windows:
 
 ```
