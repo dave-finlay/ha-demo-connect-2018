@@ -22,5 +22,11 @@ export COUCHBASE_NUM_VBUCKETS=64
 
 echo "Running node ${node_idx} ..."
 cd ${ns_server_dir}
+
+logs_dir=logs/n_${node_idx}
+if [ ! -d $logs_dir ]; then
+    mkdir -p $logs_dir
+fi
+
 ./cluster_run --start-index ${node_idx} --nodes 1 --dont-rename \
-              > logs/n_${node_idx}/node_${node_idx}.log 2>&1
+              > ${logs_dir}/node_${node_idx}.log 2>&1
