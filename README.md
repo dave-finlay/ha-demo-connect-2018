@@ -12,20 +12,15 @@ repo sync
 make -j4 EXTRA_CMAKE_OPTIONS='-DCOUCHBASE_DISABLED_UNIT_TESTS="kv_engine;platform"'
 ```
 
-Set the number of vbuckets for the buckets in the cluster to be created to 64.
-This doesn't affect functional behavior, but makes the demo snappier.
-```
-export COUCHBASE_NUM_VBUCKETS=64
-```
-
-Start the cluster. Best to do so in 5 separate windows:
+Start the cluster. Best to do so in 6 separate windows:
 
 ```
-./cluster_run --nodes 2 --dont-rename
-./cluster_run --start-index 2 --nodes 1 --dont-rename 
-./cluster_run --start-index 3 --nodes 1 --dont-rename 
-./cluster_run --start-index 4 --nodes 1 --dont-rename 
-./cluster_run --start-index 5 --nodes 1 --dont-rename 
+start-server.sh 0
+start-server.sh 1
+start-server.sh 2
+start-server.sh 3
+start-server.sh 4
+start-server.sh 5
 ```
 
 Create the cluster:

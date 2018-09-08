@@ -16,6 +16,10 @@ else
     exit 1
 fi
 
+# We set the number of vbuckets for the buckets in the cluster to be created to 64.
+# This doesn't affect functional behavior, but makes the demo snappier.
+export COUCHBASE_NUM_VBUCKETS=64
+
 echo "Running node ${node_idx} ..."
 cd ${ns_server_dir}
 ./cluster_run --start-index ${node_idx} --nodes 1 --dont-rename \
