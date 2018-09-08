@@ -48,13 +48,25 @@ start-workload.sh
 
 # Demo Steps
 
-  1. Drop server 5. 
-     Observe failover and effect on workload.
-  2. Drop server 3
-     Observe failover and effect on workload.
-  3. Add back servers 3 and 5 via delta-node recovery. Rebalance
-  4. Remove writability from node 5. Observe failover and workload. Add back. Rebalance.
-  5. Hang the orchestrator. Observe failover and workload. Add back. Rebalance.
+  1. Single node failure.
+     * Drop server 5. 
+     * Observe effect on workload, before and after failover.
+  2. Another node fails. 
+     * Drop server 3.
+     * Observe effect on workload, before and after failover.
+  3. Recover cluster.
+     * Add back servers 3 and 5 via delta-node recovery. 
+     * Rebalance.
+  4. Disk problems.
+     * Remove writability from node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+     * Observe effect on workload, before and after failover.
+     * Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+     * Add back. Rebalance.
+  5. Orchestrator failure. 
+     * Hang the orchestrator. 
+     * Observe failover and workload.
+     * Unhang the orchestrator.
+     * Add back. Rebalance.
   6. Drop server group 3. Observe failover and workload. 
 
 # Handy Commands You Might Need
