@@ -97,9 +97,7 @@ Configure the auto-failover settings:
 
 Start the workload:
 ```
-../install/bin/cbc-pillowfight  --rate-limit 1000 --json --username Administrator --password asdasd \
-              --spec couchbase://localhost:12000/messages --no-population \
-              -t 10 -B 1 -Dtimeout=0.001 
+start-workload.sh
 ```
 
 
