@@ -1,4 +1,4 @@
-# What this repo is for 
+# What This Repo is For 
 This repo captures instructions for setting up a cluster_run based build 
 for the HA demo for Connect SV 2018.
 
@@ -35,11 +35,29 @@ make sure the auto-failover settings are correct and rebalance:
 create-cluster.sh
 ```
 
+Open a couple of browser tabs and place them side-by-side:
+```
+open 'http://localhost:9000/ui/index.html#!/servers/list'
+open 'http://localhost:9000/ui/index.html#!/buckets/analytics/ops?statsHostname=all&bucket=messages&openedStatsBlock=Server%20Resources&openedStatsBlock=Summary&zoom=minute'
+```
+
 Start the workload:
 ```
 start-workload.sh
 ```
 
+# Demo Steps
+
+  1. Drop server 5. 
+     Observe failover and effect on workload.
+  2. Drop server 3
+     Observe failover and effect on workload.
+  3. Add back servers 3 and 5 via delta-node recovery. Rebalance
+  4. Remove writability from node 5. Observe failover and workload. Add back. Rebalance.
+  5. Hang the orchestrator. Observe failover and workload. Add back. Rebalance.
+  6. Drop server group 3. Observe failover and workload. 
+
+# Handy Commands You Might Need
 
 Disable and then re-enable writability of data on node 5:
 ```
@@ -61,8 +79,6 @@ pgrep -lf beam.smp | \
 kill -STOP $PID
 kill -CONT $PID
 ```
-
-# Handy Commands You Might Need
 
 List server groups:
 ```
