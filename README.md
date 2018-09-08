@@ -8,6 +8,7 @@ First build 5.5.1 Couchbase Server:
 ```
 repo init -u git://github.com/couchbase/manifest -m released/5.5.1.xml -g all
 repo sync
+make -j4 EXTRA_CMAKE_OPTIONS='-DCOUCHBASE_DISABLED_UNIT_TESTS="kv_engine;platform"'
 ```
 
 Set the number of vbuckets for the buckets in the cluster to be created to 64.
