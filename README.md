@@ -3,9 +3,10 @@ This repo captures instructions for setting up a cluster_run based build
 for the HA demo for Connect SV 2018.
 
 # Setup
-First build 5.5.1 Couchbase Server:
+First clone this repo and sync and build 5.5.1 Couchbase Server:
  
 ```
+git clone git@github.com:dave-finlay/ha-demo-connect-2018.git
 repo init -u git://github.com/couchbase/manifest -m released/5.5.1.xml -g all
 repo sync
 make -j4 EXTRA_CMAKE_OPTIONS='-DCOUCHBASE_DISABLED_UNIT_TESTS="kv_engine;platform"'
