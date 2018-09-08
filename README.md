@@ -28,71 +28,11 @@ start-server.sh 4
 start-server.sh 5
 ```
 
-Create the cluster:
+Create the cluster. This will set up the server groups, add the nodes, create the bucket,
+make sure the auto-failover settings are correct and rebalance:
 
 ```
-../couchbase-cli/couchbase-cli cluster-init -c 127.0.0.1:9000 \
-              --cluster-username Administrator \
-              --cluster-password asdasd \
-              --cluster-ramsize 1024 \
-              --cluster-name "Connect SV 2018 Demo" \
-              --services data
-```
-
-List server groups:
-```
-../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --list
-```
-
-Delete a server group:
-```
-../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --group-name "Group 5" --delete
-```
-
-Create the server groups:
-```
-for g in `seq 2 3`
-    do ../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --group-name "Group $g" --create
-done
-```
-
-Add the nodes:
-```
-for x in `seq 1 5`
-    do ../couchbase-cli/couchbase-cli server-add -c 127.0.0.1:9000 -u Administrator -p asdasd \
-                 --server-add 127.0.0.1:900${x} \
-                 --server-add-username Administrator --server-add-password asdasd \
-                 --group-name "Group $((($x / 2) + 1))" --services data
-done
-```
-
-And create the bucket:
-```
-../couchbase-cli/couchbase-cli bucket-create -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --bucket messages \
-              --bucket-type couchbase \
-              --bucket-ramsize 1024 \
-              --bucket-replica 2 \
-              --enable-flush 1 \
-              --wait
-```
-
-Rebalance:
-
-```
-../couchbase-cli/couchbase-cli rebalance -c 127.0.0.1:9000 -u Administrator -p asdasd 
-```
-
-Configure the auto-failover settings:
-```
-../couchbase-cli/couchbase-cli setting-autofailover -c 127.0.0.1:9000 -u Administrator -p asdasd \
-              --enable-auto-failover 1 \
-              --auto-failover-timeout 5 \
-              --enable-failover-of-server-groups 1 \
-              --max-failovers 3 \
-              --enable-failover-on-data-disk-issues 1 \
-              --failover-data-disk-period 5
+create-cluster.sh
 ```
 
 Start the workload:
@@ -121,3 +61,17 @@ pgrep -lf beam.smp | \
 kill -STOP $PID
 kill -CONT $PID
 ```
+
+# Handy Commands You Might Need
+
+List server groups:
+```
+../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --list
+```
+
+Delete a server group:
+```
+../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --group-name "Group 5" --delete
+```
+
+
