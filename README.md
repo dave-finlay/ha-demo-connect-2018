@@ -68,9 +68,9 @@ start-workload.sh
     
 ## 5. Orchestrator failure.
 * Hang the orchestrator: 
-```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
+    ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
 * Observe failover and workload.
-* Switch to logs page.
+        * Switch to logs page.
 * Unhang the orchestrator.
 ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID```
 * Add back. Rebalance.
