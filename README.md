@@ -17,7 +17,7 @@ Change to the demo directory:
 cd ha-demo-connect-2018
 ```
 
-Start the cluster. Best to do so in 6 separate windows:
+Start the cluster. Best to do so in 6 separate terminals:
 ```
 start-server.sh 0
 start-server.sh 1
