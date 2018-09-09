@@ -49,31 +49,31 @@ start-workload.sh
 # Demo Steps
 
 ## 1. Single node failure.
-    * Drop server 5. 
-    * Observe effect on workload, before and after failover.
+* Drop server 5. 
+* Observe effect on workload, before and after failover.
 
 ## 2. Another node fails.
-    * Drop server 3.
-    * Observe effect on workload, before and after failover.
+* Drop server 3.
+* Observe effect on workload, before and after failover.
 
 ## 3. Recover cluster.
-    * Add back servers 3 and 5 via delta-node recovery. 
-    * Rebalance.
+* Add back servers 3 and 5 via delta-node recovery. 
+* Rebalance.
 
 ## 4. Disk problems.
-    * Remove writability from node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
-    * Observe effect on workload, before and after failover.
-    * Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
-    * Add back. Rebalance.
+* Remove writability from node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+* Observe effect on workload, before and after failover.
+* Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+* Add back. Rebalance.
     
 ## 5. Orchestrator failure.
-    * Hang the orchestrator: 
-    ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
-    * Observe failover and workload.
-    * Switch to logs page.
-    * Unhang the orchestrator.
-    ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID```
-    * Add back. Rebalance.
+* Hang the orchestrator: 
+```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
+* Observe failover and workload.
+* Switch to logs page.
+* Unhang the orchestrator.
+```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID```
+* Add back. Rebalance.
     
 ## 6. Drop server group 3. Observe failover and workload. 
 
