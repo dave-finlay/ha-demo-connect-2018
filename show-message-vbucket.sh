@@ -15,12 +15,16 @@ if [ ! "${count}" ]; then
     count=1
 fi
 
+curl_cmd="curl -s localhost:9000/pools/default/buckets/messages -u Administrator:asdasd"
+vb_cmd="${install_dir}/bin/tools/vbuckettool - important-message"
+
 idx="0"
 while [ $idx -lt $count ]; do
     if [ $idx -ne 0 ]; then
         sleep 1
+    else
+        echo "Running: $curl_cmd | $vb_cmd"
     fi
-    curl -s localhost:9000/pools/default/buckets/messages -u Administrator:asdasd | \
-            ${install_dir}/bin/tools/vbuckettool - important-message;
+    $curl_cmd | $vb_cmd
     idx=$[ $idx + 1 ]
 done
