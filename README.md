@@ -66,7 +66,7 @@ start-workload.sh
 * Observe effect on workload, before and after failover.
 
 ## 3. Recover cluster.
-* Add back servers 3 and 5 via delta-node recovery. 
+* Add back servers 2 and 5 via delta-node recovery. 
 * Rebalance.
 
 ## 4. Disk problems.
