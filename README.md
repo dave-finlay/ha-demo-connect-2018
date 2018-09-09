@@ -18,7 +18,6 @@ cd ha-demo-connect-2018
 ```
 
 Start the cluster. Best to do so in 6 separate windows:
-
 ```
 start-server.sh 0
 start-server.sh 1
@@ -30,7 +29,6 @@ start-server.sh 5
 
 Create the cluster. This will set up the server groups, add the nodes, create the bucket,
 make sure the auto-failover settings are correct and rebalance:
-
 ```
 create-cluster.sh
 ```
@@ -57,8 +55,8 @@ start-workload.sh
 
 ## 1. Single node failure.
 * Show the vbucket for `important-message` using `show-message-vbucket.sh`
-* Run `start-workload.sh`
 * Drop server 2. 
+* Loops the vbucket info for `important-message` using `show-message-vbucket.sh 1000`
 * Observe effect on workload, before and after failover.
 
 ## 2. Another node fails.
@@ -86,7 +84,6 @@ chmod -R ugo-w ../ns_server/data/n_5/data
 ```
 OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID
 ```
-
 * Observe failover and workload.
 * Switch to logs page.
 * Unhang the orchestrator.
