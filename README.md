@@ -52,6 +52,10 @@ start-workload.sh
 * 2 replicas
 * 3 server groups
 * Create a message using `post-important-message.sh`
+* Open the "important message":
+```
+open 'http://localhost:9001/ui/index.html#!/buckets/documents/important-message?bucket=messages'
+```
 
 ## 1. Single node failure.
 * Show the vbucket for `important-message` using `show-message-vbucket.sh`
@@ -123,11 +127,6 @@ List server groups:
 Delete a server group:
 ```
 ../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --group-name "Group 5" --delete
-```
-
-Open important-message:
-```
-open 'http://localhost:9001/ui/index.html#!/buckets/documents/important-message?bucket=messages'
 ```
 
 Show important-message on the command line:
