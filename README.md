@@ -95,7 +95,8 @@ OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d 
 ```
 * Add back. Rebalance.
     
-## 6. Drop server group 3. Observe failover and workload. 
+## 6. Drop server group 3.
+* Observe failover and workload. 
 
 # Handy Commands You Might Need
 
