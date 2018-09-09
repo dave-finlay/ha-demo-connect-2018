@@ -48,29 +48,34 @@ start-workload.sh
 
 # Demo Steps
 
-  1. Single node failure.
-     * Drop server 5. 
-     * Observe effect on workload, before and after failover.
-  2. Another node fails. 
-     * Drop server 3.
-     * Observe effect on workload, before and after failover.
-  3. Recover cluster.
-     * Add back servers 3 and 5 via delta-node recovery. 
-     * Rebalance.
-  4. Disk problems.
-     * Remove writability from node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
-     * Observe effect on workload, before and after failover.
-     * Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
-     * Add back. Rebalance.
-  5. Orchestrator failure. 
-     * Hang the orchestrator: 
-     ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
-     * Observe failover and workload.
-     * Switch to logs page.
-     * Unhang the orchestrator.
-     ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID```
-     * Add back. Rebalance.
-  6. Drop server group 3. Observe failover and workload. 
+## 1. Single node failure.
+    * Drop server 5. 
+    * Observe effect on workload, before and after failover.
+
+## 2. Another node fails.
+    * Drop server 3.
+    * Observe effect on workload, before and after failover.
+
+## 3. Recover cluster.
+    * Add back servers 3 and 5 via delta-node recovery. 
+    * Rebalance.
+
+## 4. Disk problems.
+    * Remove writability from node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+    * Observe effect on workload, before and after failover.
+    * Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+    * Add back. Rebalance.
+    
+## 5. Orchestrator failure.
+    * Hang the orchestrator: 
+    ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID```
+    * Observe failover and workload.
+    * Switch to logs page.
+    * Unhang the orchestrator.
+    ```OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID```
+    * Add back. Rebalance.
+    
+## 6. Drop server group 3. Observe failover and workload. 
 
 # Handy Commands You Might Need
 
@@ -100,6 +105,16 @@ List server groups:
 Delete a server group:
 ```
 ../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --group-name "Group 5" --delete
+```
+
+Open important-message:
+```
+open 'http://localhost:9001/ui/index.html#!/buckets/documents/important-message?bucket=messages'
+```
+
+Show important-message on the command line:
+```
+curl -s localhost:9000/pools/default/buckets/messages/docs/important-message -u Administrator:asdasd | jq -r .json
 ```
 
 
