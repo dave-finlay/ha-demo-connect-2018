@@ -44,7 +44,7 @@ Start the workload:
 start-workload.sh
 ```
 
-# Demo Steps<a name="demo-steps"></a>
+# Demo Steps
 
 ## 0. Introduce setup
 * 6 node cluster
