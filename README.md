@@ -48,12 +48,21 @@ start-workload.sh
 
 # Demo Steps
 
+## 0. Introduce setup
+* 6 node cluster
+* 1 bucket - the `messages` bucket
+* 2 replicas
+* 3 server groups
+* Create a message using `post-important-message.sh`
+
 ## 1. Single node failure.
-* Drop server 5. 
+* Show the vbucket for `important-message` using `show-message-vbucket.sh`
+* Run `start-workload.sh`
+* Drop server 2. 
 * Observe effect on workload, before and after failover.
 
 ## 2. Another node fails.
-* Drop server 3.
+* Drop server 5.
 * Observe effect on workload, before and after failover.
 
 ## 3. Recover cluster.
@@ -61,9 +70,15 @@ start-workload.sh
 * Rebalance.
 
 ## 4. Disk problems.
-* Remove writability from node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+* Remove writability from node 5: 
+```
+chmod -R ugo-w ../ns_server/data/n_5/data
+```
 * Observe effect on workload, before and after failover.
-* Restore writability to node node 5: `chmod -R ugo-w ../ns_server/data/n_5/data`
+* Restore writability to node node 5: 
+```
+chmod -R ugo-w ../ns_server/data/n_5/data
+```
 * Add back. Rebalance.
     
 ## 5. Orchestrator failure.
