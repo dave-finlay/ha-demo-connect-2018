@@ -12,7 +12,7 @@ if [ -d ../ns_server ]; then
 elif [ -d ns_server ]; then
     ns_server_dir="ns_server"
 else
-    echo "Couldn't not find ns_server"
+    echo "Could not find ns_server"
     exit 1
 fi
 

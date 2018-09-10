@@ -6,7 +6,7 @@ if [ -d ../install ]; then
 elif [ -d install ]; then
     install_dir="install"
 else
-    echo "Couldn't not find Couchbase Server install dir"
+    echo "Could not find Couchbase Server install dir"
     exit 1
 fi
 
