@@ -55,7 +55,7 @@ start-workload.sh
 * 3 server groups
 
 ## 1. Create document
-* `echo post-important-message.sh`
+* `cat post-important-message.sh`
 * `post-important-message.sh`
 * `open-buckets.sh` # and navigate Documents \ Classic Editor \ important-message
 * `show-message-vbucket.sh`
