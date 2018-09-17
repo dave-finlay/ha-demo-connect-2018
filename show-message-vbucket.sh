@@ -23,7 +23,7 @@ while [ $idx -lt $count ]; do
     if [ $idx -ne 0 ]; then
         sleep 1
     else
-        echo "Running: $curl_cmd | $vb_cmd"
+        echo "$curl_cmd | $vb_cmd"
     fi
     $curl_cmd | $vb_cmd
     idx=$[ $idx + 1 ]
