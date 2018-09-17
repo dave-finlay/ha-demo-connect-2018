@@ -17,6 +17,9 @@ Change to the demo directory:
 cd ha-demo-connect-2018
 ```
 
+Edit your .bash_login so that new terminal windows automatically cd to ha-demo-connect-2018
+directory.
+
 Start the cluster. Best to do so in 6 separate terminals:
 ```
 start-server.sh 0
@@ -35,8 +38,7 @@ create-cluster.sh
 
 Open a couple of browser tabs and place them side-by-side:
 ```
-open 'http://localhost:9001/ui/index.html#!/servers/list'
-open 'http://localhost:9001/ui/index.html#!/buckets/analytics/ops?statsHostname=all&bucket=messages&openedStatsBlock=Server%20Resources&openedStatsBlock=Summary&zoom=minute'
+open-browser-tabs.sh
 ```
 
 Start the workload:
@@ -51,48 +53,45 @@ start-workload.sh
 * 1 bucket - the `messages` bucket
 * 2 replicas
 * 3 server groups
-* Create a message using `post-important-message.sh`
-* Open the "important message":
-```
-open 'http://localhost:9001/ui/index.html#!/buckets/documents/important-message?bucket=messages'
-```
 
-## 1. Single node failure.
-* Show the vbucket for `important-message` using `show-message-vbucket.sh`
+## 1. Create document
+* `echo post-important-message.sh`
+* `post-important-message.sh`
+* `open-buckets.sh` # and navigate Documents \ Classic Editor \ important-message
+* `show-message-vbucket.sh`
+* `show-message-vbucket.sh 1000`
+
+## 2. Single node failure.
 * Drop server 2. 
-* Loops the vbucket info for `important-message` using `show-message-vbucket.sh 1000`
+* Return to terminal and see the vbmap change
+* Observe effect on workload, before and after failover.
+* `open-message.sh` # to show message still around after failover
+
+## 3. Another node fails.
+* Open another terminal window
+* `change-mode-on-node.sh 5 -w`
+* Kill this terminal window and show the terminal with `show-message-vbucket.sh` running.
 * Observe effect on workload, before and after failover.
 
-## 2. Another node fails.
-* Drop server 5.
-* Observe effect on workload, before and after failover.
-
-## 3. Recover cluster.
+## 4. Recover cluster.
+* Navigate to server 2 terminal and restart server 2
+* Open terminal window
+* `change-mode-on-node.sh 5 +w`
+* Kill terminal window
 * Add back servers 2 and 5 via delta-node recovery. 
-* Rebalance.
+* Rebalance
 
-## 4. Disk problems.
-* Remove writability from node 5: 
-```
-chmod -R ugo-w ../ns_server/data/n_5/data
-```
-* Observe effect on workload, before and after failover.
-* Restore writability to node node 5: 
-```
-chmod -R ugo-w ../ns_server/data/n_5/data
-```
-* Add back. Rebalance.
-    
 ## 5. Orchestrator failure.
+* `find-orchestrator.sh` # to show which node is the orchestrator
 * Hang the orchestrator:     
 ```
-OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID
+send-signal-to-node.sh 0 STOP
 ```
 * Observe failover and workload.
 * Switch to logs page.
 * Unhang the orchestrator.
 ```
-OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID
+send-signal-to-node.sh 0 CONT
 ```
 * Add back. Rebalance.
     
