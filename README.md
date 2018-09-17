@@ -100,24 +100,6 @@ send-signal-to-node.sh 0 CONT
 
 # Handy Commands You Might Need
 
-Disable and then re-enable writability of data on node 5:
-```
-chmod -R ugo-w ../ns_server/data/n_5/data
-chmod -R ugo+w ../ns_server/data/n_5/data
-```
-
-Find the orchestrator:
-```
-curl localhost:9001/diag/eval -d 'node(leader_registry:whereis_name(ns_orchestrator)).' -u Administrator:asdasd
-```
-
-Pause / restart node 0 (likely the orchestrator):
-
-```
-OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -STOP $OPID
-OPID=`pgrep -lf beam.smp | grep "run child_erlang.*ns_bootstrap .*n_0" | cut -d " " -f 1`; kill -CONT $OPID
-```
-
 List server groups:
 ```
 ../couchbase-cli/couchbase-cli group-manage -c 127.0.0.1:9000 -u Administrator -p asdasd  --list
