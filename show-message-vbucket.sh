@@ -15,16 +15,16 @@ if [ ! "${count}" ]; then
     count=1
 fi
 
-curl_cmd="curl -s localhost:9000/pools/default/buckets/messages -u Administrator:asdasd"
-vb_cmd="${install_dir}/bin/tools/vbuckettool - important-message"
+cmd='curl -s localhost:9000/pools/default/buckets/messages -u Administrator:asdasd | \
+     ${install_dir}/bin/tools/vbuckettool - important-message | sed -e "s/couchApiBase: http[^ ]* //"'
 
 idx="0"
 while [ $idx -lt $count ]; do
     if [ $idx -ne 0 ]; then
         sleep 1
     else
-        echo "$curl_cmd | $vb_cmd"
+        echo "$cmd"
     fi
-    $curl_cmd | $vb_cmd
+    eval "$cmd"
     idx=$[ $idx + 1 ]
 done
